@@ -36,13 +36,56 @@ class Home extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: Image.asset('assets/images/city.jpg'),
-            )
+            new ImageChange(),
           ],
         )),
         floatingActionButton: FloatButton(),
+      ),
+    );
+  }
+}
+
+class ImageChange extends StatefulWidget {
+  final List<String> _images = [
+    'assets/images/city.jpg',
+    'assets/images/city2.png'
+  ];
+
+  @override
+  _ImageChangeState createState() => _ImageChangeState();
+}
+
+class _ImageChangeState extends State<ImageChange> {
+  int _index = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(
+              child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            child: Image.asset(widget._images[_index],
+                height: 300, fit: BoxFit.fill),
+          )),
+          Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: FlatButton(
+                child: Text('Change image $_index'),
+                onPressed: () => setState(() {
+                  if (_index == widget._images.length - 1) {
+                    _index = 0;
+                  } else {
+                    _index++;
+                  }
+                }),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -54,14 +97,14 @@ class FloatButton extends StatefulWidget {
 }
 
 class _FloatButtonState extends State<FloatButton> {
-  int count = 0;
+  int _count = 0;
   @override
   Widget build(BuildContext context) {
     return Container(
       child: FloatingActionButton(
-        child: Text('+ $count'),
+        child: Text('+ $_count'),
         backgroundColor: Colors.deepOrange,
-        onPressed: () => setState(() => count++),
+        onPressed: () => setState(() => _count++),
         tooltip: 'Increment Counter',
       ),
     );
