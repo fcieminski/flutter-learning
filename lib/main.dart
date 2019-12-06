@@ -20,19 +20,28 @@ class Home extends StatelessWidget {
           backgroundColor: Colors.deepOrange,
         ),
         body: Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            child: Text(
-              'Just trying some crazy stuff with Flutter, click button!',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.blueGrey,
-                letterSpacing: 2,
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: Text(
+                'Just trying some crazy stuff with Flutter, click button!',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueGrey,
+                  letterSpacing: 2,
+                ),
               ),
             ),
-          ),
-        ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: Image.asset('assets/images/city.jpg'),
+            )
+          ],
+        )),
         floatingActionButton: FloatButton(),
       ),
     );
