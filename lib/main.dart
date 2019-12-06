@@ -45,6 +45,27 @@ class Home extends StatelessWidget {
   }
 }
 
+class BackgroundLight extends StatefulWidget {
+  @override
+  _BackgroundLightState createState() => _BackgroundLightState();
+}
+
+class _BackgroundLightState extends State<BackgroundLight> {
+  String color = 'white';
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onDoubleTap: () => setState(() {
+        if (color == 'white') {
+          color = 'gray';
+        } else {
+          color = 'white';
+        }
+      }),
+    );
+  }
+}
+
 class ImageChange extends StatefulWidget {
   final List<String> _images = [
     'assets/images/city.jpg',
@@ -74,7 +95,7 @@ class _ImageChangeState extends State<ImageChange> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 8),
               child: FlatButton(
-                child: Text('Change image $_index'),
+                child: Text('Change image'),
                 onPressed: () => setState(() {
                   if (_index == widget._images.length - 1) {
                     _index = 0;
@@ -82,6 +103,8 @@ class _ImageChangeState extends State<ImageChange> {
                     _index++;
                   }
                 }),
+                color: Colors.deepOrange,
+                textColor: Colors.white,
               ),
             ),
           )
