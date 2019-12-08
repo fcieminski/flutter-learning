@@ -3,18 +3,23 @@ import 'package:flutter/material.dart';
 class NewTransaction extends StatelessWidget {
   final inputTitle = TextEditingController();
   final inputAmout = TextEditingController();
+  final Function addTransaction;
+
+  NewTransaction(this.addTransaction);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         TextField(
+          controller: inputTitle,
           decoration: InputDecoration(
             labelText: 'tytuł',
           ),
         ),
         TextField(
           keyboardType: TextInputType.numberWithOptions(),
+          controller: inputAmout,
           decoration: InputDecoration(
             labelText: 'kwota',
           ),
@@ -26,11 +31,7 @@ class NewTransaction extends StatelessWidget {
           color: Colors.orangeAccent,
           textColor: Colors.white,
           onPressed: () {
-            // transactions.add(new Transaction(
-            //     title: titleInput,
-            //     id: '3',
-            //     amount: double.parse(amountInput),
-            //     time: DateTime.now()));
+            addTransaction(inputTitle.text, double.parse(inputAmout.text));
           },
         ),
       ],
