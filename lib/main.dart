@@ -28,24 +28,31 @@ class Home extends StatelessWidget {
         centerTitle: true,
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Card(
-            child: Container(
-              child: Text("hello"),
-              width: double.infinity,
-              height: 100,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'tytuł',
+                  ),
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'kwota',
+                  ),
+                ),
+                FlatButton(
+                  child: Text(
+                    'Zapisz',
+                  ),
+                  color: Colors.orangeAccent,
+                  textColor: Colors.white,
+                  onPressed: () {},
+                )
+              ],
             ),
-            elevation: 5,
-          ),
-          Card(
-            child: Container(
-              child: Text('hello2'),
-              width: double.infinity,
-              height: 100,
-            ),
-            elevation: 5,
           ),
           Column(
             children: transactions.map((transaction) {
@@ -63,7 +70,7 @@ class Home extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          transaction.amount.toString(),
+                          '${transaction.amount} zł',
                           style: TextStyle(
                             color: Colors.orangeAccent,
                             fontWeight: FontWeight.bold,
@@ -93,6 +100,7 @@ class Home extends StatelessWidget {
                                 '${transaction.time.month}.${transaction.time.year} ${transaction.time.hour}:${transaction.time.minute}',
                                 style: TextStyle(
                                   fontSize: 16,
+                                  color: Colors.black45,
                                 ),
                               ),
                             ),
