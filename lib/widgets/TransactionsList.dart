@@ -9,7 +9,7 @@ class TransactionsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500,
+      height: 400,
       child: ListView.builder(
         itemBuilder: (context, index) {
           return Card(
@@ -25,7 +25,7 @@ class TransactionsList extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    '${transactions[index].amount} zł',
+                    '${transactions[index].amount.toStringAsFixed(2)} zł',
                     style: TextStyle(
                       color: Colors.orangeAccent,
                       fontWeight: FontWeight.bold,
@@ -67,6 +67,7 @@ class TransactionsList extends StatelessWidget {
           );
         },
         itemCount: transactions.length,
+        shrinkWrap: true,
       ),
     );
   }

@@ -28,6 +28,14 @@ class Home extends StatelessWidget {
               children: <Widget>[UserTransactions()],
             ),
           ),
+          FloatingActionButton(
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 20,
+            ),
+            onPressed: () {},
+          )
         ],
       ),
     );

@@ -7,34 +7,51 @@ class NewTransaction extends StatelessWidget {
 
   NewTransaction(this.addTransaction);
 
+  void submitForm() {
+    final title = inputTitle.text;
+    final amount = double.parse(inputAmout.text);
+
+    if (title.isEmpty || amount is! double || amount <= 0) {
+      return;
+    }
+
+    addTransaction(title, amount);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        TextField(
-          controller: inputTitle,
-          decoration: InputDecoration(
-            labelText: 'tytuł',
-          ),
+    return Card(
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            TextField(
+              controller: inputTitle,
+              decoration: InputDecoration(
+                labelText: 'tytuł',
+              ),
+              onSubmitted: (_) => submitForm(),
+            ),
+            TextField(
+              keyboardType: TextInputType.numberWithOptions(),
+              controller: inputAmout,
+              decoration: InputDecoration(
+                labelText: 'kwota',
+              ),
+              onSubmitted: (_) => submitForm(),
+            ),
+            FlatButton(
+              child: Text(
+                'Zapisz',
+              ),
+              color: Colors.orangeAccent,
+              textColor: Colors.white,
+              onPressed: submitForm,
+            ),
+          ],
         ),
-        TextField(
-          keyboardType: TextInputType.numberWithOptions(),
-          controller: inputAmout,
-          decoration: InputDecoration(
-            labelText: 'kwota',
-          ),
-        ),
-        FlatButton(
-          child: Text(
-            'Zapisz',
-          ),
-          color: Colors.orangeAccent,
-          textColor: Colors.white,
-          onPressed: () {
-            addTransaction(inputTitle.text, double.parse(inputAmout.text));
-          },
-        ),
-      ],
+      ),
     );
   }
 }
