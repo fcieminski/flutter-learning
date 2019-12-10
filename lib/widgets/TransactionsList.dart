@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
 import '../models/transaction.dart';
 
-class TransactionsList extends StatelessWidget {
+class TransactionsList extends StatefulWidget {
   final List<Transaction> transactions;
 
   TransactionsList(this.transactions);
 
   @override
+  _TransactionsListState createState() => _TransactionsListState();
+}
+
+class _TransactionsListState extends State<TransactionsList> {
+  void _removeTransaction(int transactionIndex) {
+    setState(() {
+      widget.transactions.removeAt(transactionIndex);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       height: 600,
-      child: transactions.isEmpty
+      child: widget.transactions.isEmpty
           ? Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -33,59 +44,71 @@ class TransactionsList extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Card(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.all(8),
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.orangeAccent,
-                            width: 2,
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.all(8),
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.orangeAccent,
+                                width: 2,
+                              ),
+                            ),
+                            child: Text(
+                              '${widget.transactions[index].amount.toStringAsFixed(2)} zł',
+                              style: TextStyle(
+                                color: Colors.orangeAccent,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
                           ),
-                        ),
-                        child: Text(
-                          '${transactions[index].amount.toStringAsFixed(2)} zł',
-                          style: TextStyle(
-                            color: Colors.orangeAccent,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                          Container(
+                            margin: EdgeInsets.all(8),
+                            padding: EdgeInsets.all(8),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.only(bottom: 8),
+                                  child: Text(
+                                    widget.transactions[index].title,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  child: Text(
+                                    '${widget.transactions[index].time.month}.${widget.transactions[index].time.year} ${widget.transactions[index].time.hour}:${widget.transactions[index].time.minute}',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black45,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                      Container(
-                        margin: EdgeInsets.all(8),
-                        padding: EdgeInsets.all(8),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.only(bottom: 8),
-                              child: Text(
-                                transactions[index].title,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: Text(
-                                '${transactions[index].time.month}.${transactions[index].time.year} ${transactions[index].time.hour}:${transactions[index].time.minute}',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black45,
-                                ),
-                              ),
-                            ),
-                          ],
+                      FlatButton(
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.orangeAccent,
                         ),
+                        onPressed: () => _removeTransaction(index),
                       ),
                     ],
                   ),
                 );
               },
-              itemCount: transactions.length,
+              itemCount: widget.transactions.length,
               shrinkWrap: true,
             ),
     );
