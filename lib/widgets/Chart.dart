@@ -8,7 +8,7 @@ class Chart extends StatelessWidget {
   List<Map<String, Object>> get transactionValues {
     return List.generate(7, (index) {
       final weekDay = DateTime.now().subtract(Duration(days: index));
-      double daySum;
+      double daySum = 0;
 
       for (int i = 0; i < recentTransactions.length; i++) {
         if (recentTransactions[i].time.day == weekDay.day &&
@@ -17,7 +17,13 @@ class Chart extends StatelessWidget {
         }
       }
 
-      return {'day': weekDay, 'amount': daySum};
+      return {'day': '${weekDay.day}.${weekDay.month}', 'amount': daySum};
+    });
+  }
+
+  double get totalSpending {
+    return transactionValues.fold(0.0, (sum, item) {
+      return sum + item['amount'];
     });
   }
 
@@ -26,8 +32,53 @@ class Chart extends StatelessWidget {
     return Card(
       elevation: 6,
       margin: EdgeInsets.all(16),
-      child: Row(
-        children: <Widget>[],
+      child: Padding(
+        padding: EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: transactionValues.map((element) {
+            return Flexible(
+              fit: FlexFit.tight,
+              child: Column(
+                children: <Widget>[
+                  FittedBox(
+                    child: Text('${element['amount']}zł'),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    height: 60,
+                    width: 10,
+                    child: Stack(
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Colors.orangeAccent, width: 1),
+                            color: Color.fromRGBO(220, 220, 220, 1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        FractionallySizedBox(
+                          heightFactor: totalSpending == 0.0
+                              ? 0.0
+                              : (element['amount'] as double) / totalSpending,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.deepOrange,
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }

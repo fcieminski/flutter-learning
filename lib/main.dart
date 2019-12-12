@@ -65,6 +65,8 @@ class _HomeState extends State<Home> {
           centerTitle: true,
         ),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Chart(_recentTransactions),
             Container(
