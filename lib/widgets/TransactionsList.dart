@@ -3,7 +3,6 @@ import '../models/transaction.dart';
 
 class TransactionsList extends StatefulWidget {
   final List<Transaction> transactions;
-
   TransactionsList(this.transactions);
 
   @override
@@ -20,7 +19,7 @@ class _TransactionsListState extends State<TransactionsList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 600,
+      height: 500,
       child: widget.transactions.isEmpty
           ? Row(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -18,7 +18,7 @@ class Chart extends StatelessWidget {
       }
 
       return {'day': '${weekDay.day}.${weekDay.month}', 'amount': daySum};
-    });
+    }).reversed.toList();
   }
 
   double get totalSpending {
@@ -41,8 +41,11 @@ class Chart extends StatelessWidget {
               fit: FlexFit.tight,
               child: Column(
                 children: <Widget>[
-                  FittedBox(
-                    child: Text('${element['amount']}zł'),
+                  Container(
+                    height: 20,
+                    child: FittedBox(
+                      child: Text('${element['amount']}zł'),
+                    ),
                   ),
                   SizedBox(
                     height: 10,
@@ -52,11 +55,14 @@ class Chart extends StatelessWidget {
                     height: 60,
                     width: 10,
                     child: Stack(
+                      alignment: AlignmentDirectional.bottomStart,
                       children: <Widget>[
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(
-                                color: Colors.orangeAccent, width: 1),
+                              color: Colors.orangeAccent,
+                              width: 1,
+                            ),
                             color: Color.fromRGBO(220, 220, 220, 1),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -67,12 +73,21 @@ class Chart extends StatelessWidget {
                               : (element['amount'] as double) / totalSpending,
                           child: Container(
                             decoration: BoxDecoration(
-                                color: Colors.deepOrange,
-                                borderRadius: BorderRadius.circular(10)),
+                              color: Colors.deepOrange,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
                         ),
                       ],
                     ),
+                  ),
+                  Text(
+                    '${element['day']}',
+                    style: TextStyle(
+                        color: element['day'] ==
+                                '${DateTime.now().day}.${DateTime.now().month}'
+                            ? Colors.deepOrange
+                            : null),
                   )
                 ],
               ),

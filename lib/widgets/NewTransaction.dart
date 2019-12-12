@@ -11,18 +11,31 @@ class NewTransaction extends StatefulWidget {
 class _NewTransactionState extends State<NewTransaction> {
   final inputTitle = TextEditingController();
   final inputAmout = TextEditingController();
+  DateTime time;
 
   void submitForm() {
     final title = inputTitle.text;
     final amount = double.parse(inputAmout.text);
+    final date = time;
 
     if (title.isEmpty || amount is! double || amount <= 0) {
       return;
     }
 
-    widget.addTransaction(title, amount);
+    widget.addTransaction(title, amount, date);
 
     Navigator.of(context).pop();
+  }
+
+  Future<DateTime> _dataPicker(BuildContext context) async {
+    time = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      initialDatePickerMode: DatePickerMode.day,
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+    );
+    return time;
   }
 
   @override
@@ -47,6 +60,18 @@ class _NewTransactionState extends State<NewTransaction> {
                 labelText: 'kwota',
               ),
               onSubmitted: (_) => submitForm(),
+            ),
+            Row(
+              children: <Widget>[
+                Text('Data nie wybrana'),
+                FlatButton(
+                  textColor: Colors.orangeAccent,
+                  child: Text('Wybierz datę'),
+                  onPressed: () {
+                    _dataPicker(context);
+                  },
+                )
+              ],
             ),
             FlatButton(
               child: Text(
