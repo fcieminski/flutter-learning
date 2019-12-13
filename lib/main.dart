@@ -73,6 +73,8 @@ class _HomeState extends State<Home> {
     final mainViewSize = (MediaQuery.of(context).size.height -
         appBar.preferredSize.height -
         MediaQuery.of(context).padding.top);
+    final portraitOrientation =
+        MediaQuery.of(context).orientation == Orientation.portrait;
     return Scaffold(
         appBar: appBar,
         body: SingleChildScrollView(
@@ -81,17 +83,15 @@ class _HomeState extends State<Home> {
             children: <Widget>[
               Container(
                 child: Chart(_recentTransactions),
-                height:
-                    MediaQuery.of(context).orientation == Orientation.portrait
-                        ? mainViewSize * 0.3
-                        : mainViewSize * 0.5,
+                height: portraitOrientation
+                    ? mainViewSize * 0.3
+                    : mainViewSize * 0.5,
               ),
               Container(
                 child: TransactionsList(_transactions, _removeTransaction),
-                height:
-                    MediaQuery.of(context).orientation == Orientation.portrait
-                        ? mainViewSize * 0.7
-                        : mainViewSize * 0.5,
+                height: portraitOrientation
+                    ? mainViewSize * 0.7
+                    : mainViewSize * 0.5,
               ),
             ],
           ),

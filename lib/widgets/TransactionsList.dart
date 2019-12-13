@@ -19,7 +19,7 @@ class _TransactionsListState extends State<TransactionsList> {
             children: <Widget>[
               Icon(
                 Icons.add_circle,
-                color: Colors.orangeAccent,
+                color: Colors.deepOrange,
               ),
               Padding(
                   padding: EdgeInsets.only(left: 8),
