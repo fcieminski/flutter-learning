@@ -12,18 +12,24 @@ class _NewTransactionState extends State<NewTransaction> {
   final inputTitle = TextEditingController();
   final inputAmout = TextEditingController();
   DateTime time;
+  String errorMessage;
 
   void submitForm() {
     final title = inputTitle.text;
     final amount = double.parse(inputAmout.text);
-    final date = time;
 
-    if (title.isEmpty || amount is! double || amount <= 0) {
+    if (title.isEmpty ||
+        amount is! double ||
+        amount <= 0 ||
+        time is! DateTime) {
+      setState(() {
+        errorMessage = 'W twoim formularzu wystąpił błąd!';
+      });
       return;
     }
 
-    widget.addTransaction(title, amount, date);
-
+    widget.addTransaction(title, amount, time);
+    errorMessage = '';
     Navigator.of(context).pop();
   }
 
@@ -63,7 +69,6 @@ class _NewTransactionState extends State<NewTransaction> {
             ),
             Row(
               children: <Widget>[
-                Text('Data nie wybrana'),
                 FlatButton(
                   textColor: Colors.orangeAccent,
                   child: Text('Wybierz datę'),
@@ -73,13 +78,28 @@ class _NewTransactionState extends State<NewTransaction> {
                 )
               ],
             ),
-            FlatButton(
-              child: Text(
-                'Zapisz',
-              ),
-              color: Colors.orangeAccent,
-              textColor: Colors.white,
-              onPressed: submitForm,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                if (errorMessage != null)
+                  Padding(
+                    padding: EdgeInsets.only(right: 8),
+                    child: Text(
+                      '$errorMessage',
+                      style: TextStyle(
+                        color: Colors.deepOrange,
+                      ),
+                    ),
+                  ),
+                FlatButton(
+                  child: Text(
+                    'Zapisz',
+                  ),
+                  color: Colors.orangeAccent,
+                  textColor: Colors.white,
+                  onPressed: submitForm,
+                ),
+              ],
             ),
           ],
         ),

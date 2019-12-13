@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mobile_app/models/transaction.dart';
 import 'package:mobile_app/widgets/Chart.dart';
 import 'package:mobile_app/widgets/NewTransaction.dart';
@@ -20,16 +21,16 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final List<Transaction> _transactions = [
-    Transaction(
-        id: DateTime.now().toString(),
-        time: DateTime.now(),
-        title: 'Zupa',
-        amount: 55.45),
-    Transaction(
-        id: DateTime.now().toString(),
-        time: DateTime.now(),
-        title: 'Zakupy',
-        amount: 75.52)
+    // Transaction(
+    //     id: DateTime.now().toString(),
+    //     time: DateTime.now(),
+    //     title: 'Zupa',
+    //     amount: 55.45),
+    // Transaction(
+    //     id: DateTime.now().toString(),
+    //     time: DateTime.now(),
+    //     title: 'Zakupy',
+    //     amount: 75.52)
   ];
 
   List<Transaction> get _recentTransactions {
@@ -50,6 +51,12 @@ class _HomeState extends State<Home> {
     });
   }
 
+  void _removeTransaction(int transactionIndex) {
+    setState(() {
+      _transactions.removeAt(transactionIndex);
+    });
+  }
+
   void _modalNewTransaction(BuildContext context) {
     showModalBottomSheet(
         context: context, builder: (_) => NewTransaction(_addTransaction));
@@ -57,28 +64,37 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final appBar = AppBar(
+      title: Text('New App'),
+      elevation: 5,
+      backgroundColor: Colors.deepOrange,
+      centerTitle: true,
+    );
+    final mainViewSize = (MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top);
     return Scaffold(
-        appBar: AppBar(
-          title: Text('New App'),
-          elevation: 5,
-          backgroundColor: Colors.deepOrange,
-          centerTitle: true,
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Chart(_recentTransactions),
-            Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  TransactionsList(_transactions),
-                ],
+        appBar: appBar,
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                child: Chart(_recentTransactions),
+                height:
+                    MediaQuery.of(context).orientation == Orientation.portrait
+                        ? mainViewSize * 0.3
+                        : mainViewSize * 0.5,
               ),
-            ),
-          ],
+              Container(
+                child: TransactionsList(_transactions, _removeTransaction),
+                height:
+                    MediaQuery.of(context).orientation == Orientation.portrait
+                        ? mainViewSize * 0.7
+                        : mainViewSize * 0.5,
+              ),
+            ],
+          ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
